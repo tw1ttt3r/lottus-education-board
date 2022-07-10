@@ -12,8 +12,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build:css": "tailwindcss -m -i src/index.css -o src/styles/main.css",
+    "dev:css": "tailwindcss -w -i src/index.css -o src/styles/main.css",
+    "start": "concurrently \"npm run dev:css\" \"react-scripts start\"",
+    "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
