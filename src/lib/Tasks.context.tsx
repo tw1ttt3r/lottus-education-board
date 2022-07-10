@@ -14,6 +14,8 @@ type TasksContextProps = {
   groupedTasks: any;
   setAllTasks: (tasks: Array<Task>) => void;
   createTask: (title: string, description: string) => void;
+  deleteTask: (id: string) => void;
+  editTask: (title: string, description: string, id: string) => void;
 }
 
 const TasksContext = createContext<any>(null);
@@ -47,12 +49,24 @@ const TasksContextProvider = ({ children }: TasksProviderProps) => {
     tasksGrouped();
   }, [allTasks])
 
+  const deleteTask = (id: string) => {
+    const preserveTasks = allTasks.filter( task => task.id !== id)
+    setAllTasks(preserveTasks)
+  } 
+
+  const editedTask = (title: string, description: string, id: string) => {
+    const changedTasks = allTasks.map( task => task.id === id ? { ...task, title, description } : { ...task })
+    setAllTasks(changedTasks)
+  } 
+
 
   const values = {
     tasks: allTasks,
     groupedTasks,
     setAllTasks,
-    createTask
+    createTask,
+    deleteTask,
+    editedTask
   };
 
   return (
@@ -67,14 +81,18 @@ export const useTasks = () => {
     tasks,
     setAllTasks,
     groupedTasks,
-    createTask
+    createTask,
+    deleteTask,
+    editedTask
   } = useContext(TasksContext);
 
   return {
     tasks,
     setAllTasks,
     groupedTasks,
-    createTask
+    createTask,
+    deleteTask,
+    editedTask
   }
 }
 
