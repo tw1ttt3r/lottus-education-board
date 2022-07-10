@@ -1,5 +1,7 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import SectionBoard from "components/SectionBoard";
+import RegistrationButton from "components/RegistrationButton";
+import { useTasks } from "lib/Tasks.context";
 
 type BoardProps = {
   className?: string;
@@ -92,23 +94,24 @@ const tasks = [
 
 const Board: FC<BoardProps> = ({ className }: BoardProps) => {
 
-  const tasksGrouped = tasks.reduce( ( prev, curr ) => {
-    if (!prev.hasOwnProperty(curr.status)) {
-      return { ...prev, [curr.status]: [curr] }
-    }
-    // @ts-ignore
-    return { ...prev, [curr.status]: [ ...prev[curr.status], curr] }
-  },
-  {});
+  const {
+    setAllTasks,
+    groupedTasks
+  } = useTasks();
+  
+  useEffect(() => {
+    setAllTasks(tasks)
+  }, [])
 
   return (
     <section className="w-screen h-screen bg-black p-4 flex flex-col lg:flex-row gap-4">
       {
         Object.entries(status).map(([ key, { title } ]) =>
           // @ts-ignore
-          <SectionBoard key={key} title={title} tasks={tasksGrouped[key]} />
+          <SectionBoard key={key} title={title} tasks={groupedTasks[key]} />
         )
       }
+      <RegistrationButton />
     </section>
   )
 }
