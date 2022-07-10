@@ -7,20 +7,34 @@ import CloseIcon from "icons/CloseIcon";
 import { useTasks } from "lib/Tasks.context";
 
 type ModalRegistrationProps = {
+  title?: string;
+  description?: string;
+  id?: string;
   open: boolean;
   onChange: (status: boolean) => void
 }
 
-const ModalRegistration: FC<ModalRegistrationProps> = ({ open, onChange }: ModalRegistrationProps) => {
+const ModalRegistration: FC<ModalRegistrationProps> = ({ open, onChange, title, description, id }: ModalRegistrationProps) => {
 
   const [ status, setStatus ] = useState(open)
   const [ titleTask, setTitleTask ] = useState("")
   const [ descriptionTask, setDescriptionTask ] = useState("")
   const [ validations, setValidations ] = useState({ title: true, description: true })
+  const [ modeEdition, setModeEdition ] = useState(false)
 
   const {
-    createTask
+    createTask,
+    editedTask
   } = useTasks();
+
+
+  useEffect(() => {
+    setTitleTask(title || "")
+    setDescriptionTask(description || "")
+    if (title && description) {
+      setModeEdition(true)
+    }
+  }, [title, description])
 
   useEffect(() => {
     setStatus(open)
@@ -54,7 +68,11 @@ const ModalRegistration: FC<ModalRegistrationProps> = ({ open, onChange }: Modal
 
   const saveTask = () => {
     console.log({ title: titleTask, description: descriptionTask })
-    createTask(titleTask, descriptionTask)
+    if (!modeEdition) {
+      createTask(titleTask, descriptionTask)
+    } else {
+      editedTask(titleTask, descriptionTask, id)
+    }
     setValidations({ title: !!titleTask, description: !!descriptionTask })
     setStatus(false)
     onChange(false)
@@ -68,7 +86,7 @@ const ModalRegistration: FC<ModalRegistrationProps> = ({ open, onChange }: Modal
   }
 
   return (
-    <section className={cn("fixed w-screen h-screen bg-[black] opacity-75 items-center justify-center", { "flex": status, "hidden": !status })}>
+    <section className={cn("fixed w-screen h-screen top-0 left-0 bg-[black] items-center justify-center", { "flex": status, "hidden": !status })}>
       <span onClick={() => {
         cleanModal()
         setStatus(false)
