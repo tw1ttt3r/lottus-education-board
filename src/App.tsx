@@ -1,8 +1,8 @@
+import Board from "components/Board";
+
 function App() {
   return (
-    <>
-      <h1 className="text-green-200">Hola mundo</h1>
-    </>
+    <Board />
   );
 }
 
