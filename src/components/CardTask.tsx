@@ -5,7 +5,7 @@ import { FC, ReactNode } from "react";
 
 type CardTaskProps = {
   className?: string;
-  id: number;
+  id: string;
   title: string;
   description: string;
   status: string;
