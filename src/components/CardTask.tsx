@@ -45,7 +45,7 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
 
   return (
     <>
-      <div className="group cursor-pointer p-1 flex gap-4 items-center text-white border-t-[.5px] border-b-[.5px] border-solid border-gray-400">
+      <div className={cn("group p-1 flex gap-4 items-center text-white border-t-[.5px] border-b-[.5px] border-solid border-gray-400", { "cursor-pointer": status !== "done", "cursor-not-allowed": status === "done" })}>
         <div className="pl-2">
           {
             // @ts-ignore
@@ -61,8 +61,8 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
           { status === "todo" && <span onClick={() => deleteTask(id)}><TrashIcon className="w-4 hover:text-[red]" /></span> }
           { (status === "todo" || status === "inprogress") && 
             <>
-              <span onClick={() => changeStatusTask(id)}><ArrowRightIcon className={cn("w-4 hover:text-[green] xs:hidden")} /></span>
-              <span onClick={() => changeStatusTask(id)}><ArrowDownIcon className={cn("w-4 hover:text-[green] lg:hidden")} /></span>
+              <span className="xs:hidden" onClick={() => changeStatusTask(id)}><ArrowRightIcon className={cn("w-4 hover:text-[green]")} /></span>
+              <span className="lg:hidden" onClick={() => changeStatusTask(id)}><ArrowDownIcon className={cn("w-4 hover:text-[green]")} /></span>
             </>
           }
         </div>
