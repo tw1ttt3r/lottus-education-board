@@ -67,13 +67,13 @@ const ModalRegistration: FC<ModalRegistrationProps> = ({ open, onChange, title, 
   }
 
   const saveTask = () => {
-    console.log({ title: titleTask, description: descriptionTask })
+    setValidations({ title: !!titleTask, description: !!descriptionTask })
+    if (!(!!titleTask && !!descriptionTask)) return 
     if (!modeEdition) {
       createTask(titleTask, descriptionTask)
     } else {
       editedTask(titleTask, descriptionTask, id)
     }
-    setValidations({ title: !!titleTask, description: !!descriptionTask })
     setStatus(false)
     onChange(false)
     cleanModal()
