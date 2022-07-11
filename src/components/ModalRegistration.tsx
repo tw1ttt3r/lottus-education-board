@@ -6,6 +6,7 @@ import Button from "components/Button";
 import CloseIcon from "icons/CloseIcon";
 import { useTasks } from "lib/Tasks.context";
 import { useModalStatus } from "lib/Modal.context";
+import { Tooltip } from "@mui/material";
 
 const ModalRegistration: FC = _ => {
 
@@ -79,12 +80,14 @@ const ModalRegistration: FC = _ => {
 
   return (
     <section className={cn("fixed w-screen h-screen top-0 left-0 bg-[black] items-center justify-center", { "flex": statusModal, "hidden": !statusModal })}>
-      <span onClick={() => {
-        cleanModal()
-        setStatusModal(false)
-      }} className="absolute top-4 right-10">
-        <CloseIcon className="w-4 text-white cursor-pointer" />
-      </span>
+      <Tooltip title="Cerrar" placement="left">
+        <span onClick={() => {
+          cleanModal()
+          setStatusModal(false)
+        }} className="absolute top-4 right-10">
+          <CloseIcon className="w-4 text-white cursor-pointer" />
+        </span>
+      </Tooltip>
       <div className="flex flex-col gap-2">
         <div>
           <Input value={titleTask} label="Título" onChange={(value: string) => updateTitle(value)} />

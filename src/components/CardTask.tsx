@@ -9,6 +9,7 @@ import cn from "classnames";
 import ArrowRightIcon from "icons/ArrowRightIcon";
 import ArrowDownIcon from "icons/ArrowDownIcon";
 import { useModalStatus } from "lib/Modal.context";
+import { Tooltip } from "@mui/material";
 
 type CardTaskProps = {
   className?: string;
@@ -57,13 +58,17 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
           <p className="font-spaceRoboto whitespace-pre-line text-[8px]">{ description }</p>
         </div>
         <div className="flex gap-2 justify-center items-center">
-          { (status === "todo" || status === "inprogress") && <span onClick={startProcessEdition}><EditIcon className="w-4 hover:text-[yellow]" /></span> }
-          { status === "todo" && <span onClick={() => deleteTask(id)}><TrashIcon className="w-4 hover:text-[red]" /></span> }
+          { (status === "todo" || status === "inprogress") && <Tooltip title="Editar" placement="bottom"><span onClick={startProcessEdition}><EditIcon className="w-4 hover:text-[yellow]" /></span></Tooltip> }
+          { status === "todo" && <Tooltip title="Eliminar" placement="bottom"><span onClick={() => deleteTask(id)}><TrashIcon className="w-4 hover:text-[red]" /></span></Tooltip> }
           { (status === "todo" || status === "inprogress") && 
-            <>
-              <span className="xs:hidden" onClick={() => changeStatusTask(id)}><ArrowRightIcon className={cn("w-4 hover:text-[green]")} /></span>
-              <span className="lg:hidden" onClick={() => changeStatusTask(id)}><ArrowDownIcon className={cn("w-4 hover:text-[green]")} /></span>
-            </>
+              <>
+                <Tooltip title="Mover" placement="bottom">
+                  <span className="xs:hidden" onClick={() => changeStatusTask(id)}><ArrowRightIcon className={cn("w-4 hover:text-[green]")} /></span>
+                </Tooltip>
+                <Tooltip title="Mover" placement="bottom">
+                  <span className="lg:hidden" onClick={() => changeStatusTask(id)}><ArrowDownIcon className={cn("w-4 hover:text-[green]")} /></span>
+                </Tooltip>
+              </>
           }
         </div>
       </div>
