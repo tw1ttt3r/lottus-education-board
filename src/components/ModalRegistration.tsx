@@ -74,7 +74,6 @@ const ModalRegistration: FC<ModalRegistrationProps> = ({ open, onChange, title, 
     } else {
       editedTask(titleTask, descriptionTask, id)
     }
-    console.log({ title: titleTask, description: descriptionTask })
     setStatus(false)
     onChange(false)
     cleanModal()
