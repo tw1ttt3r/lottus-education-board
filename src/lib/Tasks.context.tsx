@@ -27,6 +27,7 @@ type TasksProviderProps = {
   children: ReactNode;
 }
 
+// Generated this context to manage all actions (add, edit, update, delete) in each card
 const TasksContextProvider = ({ children }: TasksProviderProps) => {
 
   const { tasks, setTasks } = useLocalStorage();
@@ -81,6 +82,7 @@ const TasksContextProvider = ({ children }: TasksProviderProps) => {
 
   const updateLocalStorage = (tasks: Task[]) => setTasks(tasks)
 
+  // Exposing variables and methods to use in any component or lib
   const values = {
     tasks: allTasks,
     groupedTasks,
@@ -98,6 +100,7 @@ const TasksContextProvider = ({ children }: TasksProviderProps) => {
   )
 }
 
+// created a hook to consume all items exposing from Context Provider
 export const useTasks = () => {
   const {
     tasks,

@@ -1,5 +1,6 @@
 import { Task } from "lib/Tasks.context";
 
+// created a hook 'cause isolated functionality allows us use it in multiple places
 const useLocalStorage = () => {
   const key = "toDoLottus";
 
@@ -9,6 +10,7 @@ const useLocalStorage = () => {
     localStorage.setItem(key, JSON.stringify(tasks));
   }
 
+  // returned in this object all the tasks saved in local storage and a function to updated any change
   return {
     tasks,
     setTasks
