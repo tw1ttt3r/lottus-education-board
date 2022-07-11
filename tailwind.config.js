@@ -7,6 +7,10 @@ module.exports = {
         xs: { 'max': '1023px' },
         lg: {'min': '1024px'},
       },
+      fontFamily: {
+        roboto: ['Roboto Mono', "monospace"],
+        spaceRoboto: ['Space Mono', "monospace"],
+      }
     },
   },
   plugins: [],

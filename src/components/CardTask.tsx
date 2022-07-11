@@ -53,8 +53,8 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
           }
         </div>
         <div className={cn("flex flex-col flex-grow", { "text-[gray]": status === "done" })}>
-          <p>{ title }</p>
-          <p>{ description }</p>
+          <p className="font-roboto">{ title }</p>
+          <p className="font-spaceRoboto whitespace-pre-line text-[8px]">{ description }</p>
         </div>
         <div className="flex gap-2 justify-center items-center">
           { (status === "todo" || status === "inprogress") && <span onClick={startProcessEdition}><EditIcon className="w-4 hover:text-[yellow]" /></span> }
