@@ -7,6 +7,8 @@ import { useTasks } from "lib/Tasks.context";
 import { FC, ReactNode, useState } from "react";
 import ModalRegistration from "components/ModalRegistration";
 import cn from "classnames";
+import ArrowRightIcon from "icons/ArrowRightIcon";
+import ArrowDownIcon from "icons/ArrowDownIcon";
 
 type CardTaskProps = {
   className?: string;
@@ -26,6 +28,7 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
 
   const {
     deleteTask,
+    changeStatusTask
   } = useTasks()
 
   const returnTag = (type: ReactNode, className: string) => {
@@ -52,6 +55,12 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
         <div className="flex gap-2 justify-center items-center">
           { (status === "todo" || status === "inprogress") && <span onClick={() => setOpen(!open)}><EditIcon className="w-4 hover:text-[yellow]" /></span> }
           { status === "todo" && <span onClick={() => deleteTask(id)}><TrashIcon className="w-4 hover:text-[red]" /></span> }
+          { (status === "todo" || status === "inprogress") && 
+            <>
+              <span onClick={() => changeStatusTask(id)}><ArrowRightIcon className={cn("w-4 hover:text-[green] xs:hidden")} /></span>
+              <span onClick={() => changeStatusTask(id)}><ArrowDownIcon className={cn("w-4 hover:text-[green] lg:hidden")} /></span>
+            </>
+          }
         </div>
       </div>
       <ModalRegistration id={id} title={title} description={description} onChange={(status: boolean) => setOpen(status) } open={open} />
