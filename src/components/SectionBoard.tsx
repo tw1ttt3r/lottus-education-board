@@ -9,9 +9,9 @@ type SectionBoardProps = {
 
 const SectionBoard: FC<SectionBoardProps> = ({ className, title, tasks }: SectionBoardProps) => {
   return (
-    <div className="border-[1px] border-solid border-white w-full h-full p-1">
-      <p className="text-white">{ title }</p>
-      <section className="flex flex-col gap-2 mt-4 overflow-y-auto">
+    <div className="border-[1px] border-solid border-white w-full max-h-full p-1 overflow-y-auto scrollbar-hide">
+      <p className="text-white fixed bg-[gray] px-1 rounded">{ title }</p>
+      <section className="flex flex-col gap-2 mt-8">
         {
           !!tasks?.length && tasks?.map( (task, i) => <CardTask key={i} { ...task } /> )
         }

@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Change getElementById instead of querySelector 'cause use CSS selectors is more powerful
 const root = ReactDOM.createRoot(document.querySelector('#root') as HTMLElement);
 root.render(
   <React.StrictMode>

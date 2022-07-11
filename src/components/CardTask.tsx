@@ -4,11 +4,11 @@ import EditIcon from "icons/EditIcon";
 import InProgressIcon from "icons/InProgressIcon";
 import ToDoIcon from "icons/ToDoIcon";
 import { useTasks } from "lib/Tasks.context";
-import { FC, ReactNode, useState } from "react";
-import ModalRegistration from "components/ModalRegistration";
+import { FC, ReactNode } from "react";
 import cn from "classnames";
 import ArrowRightIcon from "icons/ArrowRightIcon";
 import ArrowDownIcon from "icons/ArrowDownIcon";
+import { useModalStatus } from "lib/Modal.context";
 
 type CardTaskProps = {
   className?: string;
@@ -31,17 +31,21 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
     changeStatusTask
   } = useTasks()
 
+  const { setStatusModal, editionTask } = useModalStatus()
+
   const returnTag = (type: ReactNode, className: string) => {
     const Tag =  type as keyof JSX.IntrinsicElements;
     return <Tag className={className} />
   }
 
-  const [ open, setOpen ] = useState(false)
-
+  const startProcessEdition = () => {
+    editionTask({ id, title, description, status })
+    setStatusModal(true)
+  }
 
   return (
     <>
-      <div className="group cursor-pointer p-1 flex gap-4 items-center text-white border-t-[.5px] border-b-[.5px] border-solid border-gray-400">
+      <div className={cn("group p-1 flex gap-4 items-center text-white border-t-[.5px] border-b-[.5px] border-solid border-gray-400", { "cursor-pointer": status !== "done", "cursor-not-allowed": status === "done" })}>
         <div className="pl-2">
           {
             // @ts-ignore
@@ -49,21 +53,20 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
           }
         </div>
         <div className={cn("flex flex-col flex-grow", { "text-[gray]": status === "done" })}>
-          <p>{ title }</p>
-          <p>{ description }</p>
+          <p className="font-roboto">{ title }</p>
+          <p className="font-spaceRoboto whitespace-pre-line text-[8px]">{ description }</p>
         </div>
         <div className="flex gap-2 justify-center items-center">
-          { (status === "todo" || status === "inprogress") && <span onClick={() => setOpen(!open)}><EditIcon className="w-4 hover:text-[yellow]" /></span> }
+          { (status === "todo" || status === "inprogress") && <span onClick={startProcessEdition}><EditIcon className="w-4 hover:text-[yellow]" /></span> }
           { status === "todo" && <span onClick={() => deleteTask(id)}><TrashIcon className="w-4 hover:text-[red]" /></span> }
           { (status === "todo" || status === "inprogress") && 
             <>
-              <span onClick={() => changeStatusTask(id)}><ArrowRightIcon className={cn("w-4 hover:text-[green] xs:hidden")} /></span>
-              <span onClick={() => changeStatusTask(id)}><ArrowDownIcon className={cn("w-4 hover:text-[green] lg:hidden")} /></span>
+              <span className="xs:hidden" onClick={() => changeStatusTask(id)}><ArrowRightIcon className={cn("w-4 hover:text-[green]")} /></span>
+              <span className="lg:hidden" onClick={() => changeStatusTask(id)}><ArrowDownIcon className={cn("w-4 hover:text-[green]")} /></span>
             </>
           }
         </div>
       </div>
-      <ModalRegistration id={id} title={title} description={description} onChange={(status: boolean) => setOpen(status) } open={open} />
     </>
   )
 }

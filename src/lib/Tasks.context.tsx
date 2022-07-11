@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { Context, createContext, ReactNode, useContext, useEffect, useState } from "react";
 import useLocalStorage from "lib/useLocalStorage";
 
 
@@ -16,17 +16,18 @@ type TasksContextProps = {
   setAllTasks: (tasks: Array<Task>) => void;
   createTask: (title: string, description: string) => void;
   deleteTask: (id: string) => void;
-  editTask: (title: string, description: string, id: string) => void;
+  editedTask: (title: string, description: string, id: string) => void;
   changeStatusTask: (id: string) => void;
 }
 
-const TasksContext = createContext<any>(null);
+const TasksContext = createContext<TasksContextProps | null>(null);
 TasksContext.displayName = "TasksContext";
 
 type TasksProviderProps = {
   children: ReactNode;
 }
 
+// Generated this context to manage all actions (add, edit, update, delete) in each card
 const TasksContextProvider = ({ children }: TasksProviderProps) => {
 
   const { tasks, setTasks } = useLocalStorage();
@@ -81,6 +82,7 @@ const TasksContextProvider = ({ children }: TasksProviderProps) => {
 
   const updateLocalStorage = (tasks: Task[]) => setTasks(tasks)
 
+  // Exposing variables and methods to use in any component or lib
   const values = {
     tasks: allTasks,
     groupedTasks,
@@ -98,6 +100,7 @@ const TasksContextProvider = ({ children }: TasksProviderProps) => {
   )
 }
 
+// created a hook to consume all items exposing from Context Provider
 export const useTasks = () => {
   const {
     tasks,
@@ -107,7 +110,7 @@ export const useTasks = () => {
     deleteTask,
     editedTask,
     changeStatusTask
-  } = useContext(TasksContext);
+  } = useContext(TasksContext as Context<TasksContextProps>);
 
   return {
     tasks,

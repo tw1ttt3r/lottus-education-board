@@ -1,7 +1,8 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import SectionBoard from "components/SectionBoard";
 import RegistrationButton from "components/RegistrationButton";
 import { useTasks } from "lib/Tasks.context";
+import ModalRegistration from "components/ModalRegistration";
 
 type BoardProps = {
   className?: string;
@@ -36,7 +37,7 @@ const Board: FC<BoardProps> = ({ className }: BoardProps) => {
   } = useTasks();
 
   return (
-    <section className="w-screen h-screen bg-black p-4 flex flex-col lg:flex-row gap-4 overflow-y-auto">
+    <section className="w-screen h-screen bg-black p-4 xs:grid xs:grid-rows-3 lg:flex flex-col lg:flex-row gap-4 overflow-y-auto">
       {
         Object.entries(status).map(([ key, { title } ]) =>
           // @ts-ignore
@@ -44,6 +45,7 @@ const Board: FC<BoardProps> = ({ className }: BoardProps) => {
         )
       }
       <RegistrationButton />
+      <ModalRegistration />
     </section>
   )
 }
