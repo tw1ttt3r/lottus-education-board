@@ -11,9 +11,12 @@ const SectionBoard: FC<SectionBoardProps> = ({ className, title, tasks }: Sectio
   return (
     <div className="border-[1px] border-solid border-white w-full h-full p-1">
       <p className="text-white">{ title }</p>
-      <section className="flex flex-col gap-2 mt-4">
+      <section className="flex flex-col gap-2 mt-4 overflow-y-auto">
         {
-          tasks?.map( (task, i) => <CardTask key={i} { ...task } /> )
+          !!tasks?.length && tasks?.map( (task, i) => <CardTask key={i} { ...task } /> )
+        }
+        {
+          !tasks?.length && <p className="text-[gray]">Sin Elementos</p>
         }
       </section>
     </div>

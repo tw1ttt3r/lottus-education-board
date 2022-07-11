@@ -16,6 +16,7 @@ type TasksContextProps = {
   createTask: (title: string, description: string) => void;
   deleteTask: (id: string) => void;
   editTask: (title: string, description: string, id: string) => void;
+  changeStatusTask: (id: string) => void;
 }
 
 const TasksContext = createContext<any>(null);
@@ -53,6 +54,11 @@ const TasksContextProvider = ({ children }: TasksProviderProps) => {
     const preserveTasks = allTasks.filter( task => task.id !== id)
     setAllTasks(preserveTasks)
   } 
+  
+  const changeStatusTask = (id: string) => {
+    const changedTasks = allTasks.map( task => task.id === id ? { ...task, status: task.status === "todo" ? "inprogress" : "done" } : { ...task })
+    setAllTasks(changedTasks)
+  } 
 
   const editedTask = (title: string, description: string, id: string) => {
     const changedTasks = allTasks.map( task => task.id === id ? { ...task, title, description } : { ...task })
@@ -66,7 +72,8 @@ const TasksContextProvider = ({ children }: TasksProviderProps) => {
     setAllTasks,
     createTask,
     deleteTask,
-    editedTask
+    editedTask,
+    changeStatusTask
   };
 
   return (
@@ -83,7 +90,8 @@ export const useTasks = () => {
     groupedTasks,
     createTask,
     deleteTask,
-    editedTask
+    editedTask,
+    changeStatusTask
   } = useContext(TasksContext);
 
   return {
@@ -92,7 +100,8 @@ export const useTasks = () => {
     groupedTasks,
     createTask,
     deleteTask,
-    editedTask
+    editedTask,
+    changeStatusTask
   }
 }
 
