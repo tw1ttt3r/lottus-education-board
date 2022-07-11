@@ -104,7 +104,7 @@ const Board: FC<BoardProps> = ({ className }: BoardProps) => {
   }, [])
 
   return (
-    <section className="w-screen h-screen bg-black p-4 flex flex-col lg:flex-row gap-4">
+    <section className="w-screen h-screen bg-black p-4 flex flex-col lg:flex-row gap-4 overflow-y-auto">
       {
         Object.entries(status).map(([ key, { title } ]) =>
           // @ts-ignore
