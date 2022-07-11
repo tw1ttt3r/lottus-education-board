@@ -4,11 +4,11 @@ import EditIcon from "icons/EditIcon";
 import InProgressIcon from "icons/InProgressIcon";
 import ToDoIcon from "icons/ToDoIcon";
 import { useTasks } from "lib/Tasks.context";
-import { FC, ReactNode, useState } from "react";
-import ModalRegistration from "components/ModalRegistration";
+import { FC, ReactNode } from "react";
 import cn from "classnames";
 import ArrowRightIcon from "icons/ArrowRightIcon";
 import ArrowDownIcon from "icons/ArrowDownIcon";
+import { useModalStatus } from "lib/Modal.context";
 
 type CardTaskProps = {
   className?: string;
@@ -31,13 +31,17 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
     changeStatusTask
   } = useTasks()
 
+  const { setStatusModal, editionTask } = useModalStatus()
+
   const returnTag = (type: ReactNode, className: string) => {
     const Tag =  type as keyof JSX.IntrinsicElements;
     return <Tag className={className} />
   }
 
-  const [ open, setOpen ] = useState(false)
-
+  const startProcessEdition = () => {
+    editionTask({ id, title, description, status })
+    setStatusModal(true)
+  }
 
   return (
     <>
@@ -53,7 +57,7 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
           <p>{ description }</p>
         </div>
         <div className="flex gap-2 justify-center items-center">
-          { (status === "todo" || status === "inprogress") && <span onClick={() => setOpen(!open)}><EditIcon className="w-4 hover:text-[yellow]" /></span> }
+          { (status === "todo" || status === "inprogress") && <span onClick={startProcessEdition}><EditIcon className="w-4 hover:text-[yellow]" /></span> }
           { status === "todo" && <span onClick={() => deleteTask(id)}><TrashIcon className="w-4 hover:text-[red]" /></span> }
           { (status === "todo" || status === "inprogress") && 
             <>
@@ -63,7 +67,6 @@ const CardTask: FC<CardTaskProps> = ({ className, id, title, description, status
           }
         </div>
       </div>
-      <ModalRegistration id={id} title={title} description={description} onChange={(status: boolean) => setOpen(status) } open={open} />
     </>
   )
 }

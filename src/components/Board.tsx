@@ -1,7 +1,8 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import SectionBoard from "components/SectionBoard";
 import RegistrationButton from "components/RegistrationButton";
 import { useTasks } from "lib/Tasks.context";
+import ModalRegistration from "components/ModalRegistration";
 
 type BoardProps = {
   className?: string;
@@ -44,6 +45,7 @@ const Board: FC<BoardProps> = ({ className }: BoardProps) => {
         )
       }
       <RegistrationButton />
+      <ModalRegistration />
     </section>
   )
 }
