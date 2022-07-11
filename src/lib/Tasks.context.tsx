@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { Context, createContext, ReactNode, useContext, useEffect, useState } from "react";
 import useLocalStorage from "lib/useLocalStorage";
 
 
@@ -16,11 +16,11 @@ type TasksContextProps = {
   setAllTasks: (tasks: Array<Task>) => void;
   createTask: (title: string, description: string) => void;
   deleteTask: (id: string) => void;
-  editTask: (title: string, description: string, id: string) => void;
+  editedTask: (title: string, description: string, id: string) => void;
   changeStatusTask: (id: string) => void;
 }
 
-const TasksContext = createContext<any>(null);
+const TasksContext = createContext<TasksContextProps | null>(null);
 TasksContext.displayName = "TasksContext";
 
 type TasksProviderProps = {
@@ -110,7 +110,7 @@ export const useTasks = () => {
     deleteTask,
     editedTask,
     changeStatusTask
-  } = useContext(TasksContext);
+  } = useContext(TasksContext as Context<TasksContextProps>);
 
   return {
     tasks,
